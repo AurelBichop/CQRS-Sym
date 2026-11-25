@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\NewUserDTO;
 use App\Messenger\Message\NewUserCommand;
+use App\Messenger\Message\UserIdQuery;
 use App\Messenger\TransportBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,10 @@ final class UserController extends AbstractController
     #[Route('/{id}', name: 'app_get_user', requirements: ['id'=>'(?!new$).+'], methods: ['GET'])]
     public function get(string $id): Response
     {
+        $message = new UserIdQuery($id);
 
+        $user = $this->transportBus->transport($message);
+
+        dd($user);
     }
 }
